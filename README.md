@@ -13,15 +13,15 @@ mvn package
 Запуск с нужной функцией:
 
 ```bash
-java -jar app_name.jar <функция> testData.json
+java -jar app-jar-with-dependencies.jar <функция> testData.json
 ```
 
 Примеры:
 
 ```bash
-java -jar app_name.jar avg testData.json
-java -jar app_name.jar max testData.json
-java -jar app_name.jar values testData.json
+java -jar app-jar-with-dependencies.jar avg testData.json
+java -jar app-jar-with-dependencies.jar max testData.json
+java -jar app-jar-with-dependencies.jar values testData.json
 ```
 
 ### Аргументы:
