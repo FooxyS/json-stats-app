@@ -27,7 +27,7 @@ java -jar app_name.jar values testData.json
 ### Аргументы:
 
 * `<функция>` — одна из: `avg`, `max`, `values`
-* `testData.json` — путь к JSON-файлу с данными
+* `testData.json` — название JSON-файла, который лежит в resources
 
 ## Реализованные функции
 
