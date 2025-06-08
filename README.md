@@ -4,13 +4,13 @@
 
 ## Как запустить
 
-Собери JAR-файл:
+Сборка JAR-файла:
 
 ```bash
 mvn package
 ````
 
-Запусти с нужной функцией:
+Запуск с нужной функцией:
 
 ```bash
 java -jar app_name.jar <функция> testData.json
@@ -61,4 +61,3 @@ java -jar app_name.jar values testData.json
   "host": "192.168.10.8"
 }
 ```
-# json-stats-app
