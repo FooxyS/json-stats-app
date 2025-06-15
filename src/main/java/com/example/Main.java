@@ -1,5 +1,8 @@
 package com.example;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -13,9 +16,22 @@ import com.google.gson.reflect.TypeToken;
 
 public class Main {
     public static void main(String[] args) {
-        InputStream input = Main.class.getResourceAsStream("/"+args[1]);
+        String function = args[0];
+        String filename = args[1];
+
+        InputStream input = Main.class.getResourceAsStream("/"+filename);
 
         InputStreamReader reader = new InputStreamReader(input);
+
+        if ("bulk".equals(function)) {
+            Gson gson = new Gson();
+
+            Type listType = new TypeToken<List<FullData>>(){}.getType();
+            List<FullData> list = gson.fromJson(reader, listType);
+
+            bulk(list, gson);
+            return;
+        }
 
         Gson gson = new GsonBuilder()
         .registerTypeAdapter(Data.class, new DataAdapter())
@@ -24,7 +40,7 @@ public class Main {
         Type listType = new TypeToken<List<Data>>(){}.getType();
         List<Data> list = gson.fromJson(reader, listType);
 
-        switch (args[0]) {
+        switch (function) {
             case "avg" -> {
                 System.out.println(avg(list));
             }
@@ -37,6 +53,18 @@ public class Main {
             default -> {
                 System.out.println("Введена неправильная команда");
             }
+        }
+    }
+
+    public static void bulk(List<FullData> list, Gson gson) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("BulkData.ndjson"));) {
+            for (FullData fullData : list) {
+                writer.write("{\"index\": {\"_index\": \"test_index\"}}\n");
+                gson.toJson(fullData, writer);
+                writer.write("\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка в bulk case" + e.getMessage());
         }
     }
 
