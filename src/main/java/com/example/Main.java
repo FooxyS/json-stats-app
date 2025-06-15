@@ -24,12 +24,14 @@ public class Main {
         InputStreamReader reader = new InputStreamReader(input);
 
         if ("bulk".equals(function)) {
+            String indexName = args[2];
+
             Gson gson = new Gson();
 
             Type listType = new TypeToken<List<FullData>>(){}.getType();
             List<FullData> list = gson.fromJson(reader, listType);
 
-            bulk(list, gson);
+            bulk(list, gson, indexName);
             return;
         }
 
@@ -56,10 +58,11 @@ public class Main {
         }
     }
 
-    public static void bulk(List<FullData> list, Gson gson) {
+    public static void bulk(List<FullData> list, Gson gson, String indexName) {
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("BulkData.ndjson"));) {
             for (FullData fullData : list) {
-                writer.write("{\"index\": {\"_index\": \"test_index\"}}\n");
+                writer.write(String.format("{\"index\": {\"_index\": \"%s\"}}\n", indexName));
                 gson.toJson(fullData, writer);
                 writer.write("\n");
             }
